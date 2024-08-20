@@ -2,5 +2,6 @@
   "public int sum (int a, int b) {\n  return a+b;\n}\n\n\n\n\n\n",
   "public int average (int a, int b) {\n  return (a+b)/2;\n}\n\n\n\n\n\n",
   "public int randomNumber (int base) {\n  return (Math.random() * base) (int);\n}\n\n\n\n\n\n",
-  "public int randomNumber (int base, int max) {\n  return (Math.random() * (max-base) + max) (int);\n}\n\n\n"
+  "public int randomNumber (int base, int max) {\n  return (Math.random() * (max-base) + max) (int);\n}\n\n\n",
+  "boolean canSleepIn (boolean isWeekday, boolean onVacation) {\n  return !isWeekday || onVacation;\n}\n\n\n\n\n\n"
 ]
