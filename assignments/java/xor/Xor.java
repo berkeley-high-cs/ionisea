@@ -39,6 +39,6 @@ public class Xor {
   // and decryption are the same process.)
 
   public static void main(String[] argv) throws Exception {
-    System.out.println(new Xor(567231495).decode(CIPHERTEXT.getBytes(StandardCharsets.UTF_8));
+    System.out.println(new Xor(567231495).decode(CIPHERTEXT.getBytes(StandardCharsets.UTF_8)));
   }
 }
