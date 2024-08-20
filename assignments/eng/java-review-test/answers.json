@@ -5,5 +5,5 @@
   "public int randomNumber (int base, int max) {\n  return (Math.random() * (max-base) + max) (int);\n}\n\n\n",
   "boolean canSleepIn (boolean isWeekday, boolean onVacation) {\n  return !isWeekday || onVacation;\n}\n\n\n\n\n\n",
   "public boolean getsSpeedingTicket (double speed, boolean grouchyCop) {\n  return (speed > 70.0) || (grouchyCop && speed > 65.0);\n}\n\n\n\n\n\n",
-  "public String slug ()\n\n\n\n\n\n"
+  "public String slug (String a,String b,String c,){\n  return a + \"-\" + b + \"-\" + c;\n}\n\n\n\n\n\n"
 ]
