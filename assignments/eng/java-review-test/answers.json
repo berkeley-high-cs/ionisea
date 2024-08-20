@@ -7,5 +7,6 @@
   "public boolean getsSpeedingTicket (double speed, boolean grouchyCop) {\n  return (speed > 70.0) || (grouchyCop && speed > 65.0);\n}\n\n\n\n\n\n",
   "public String slug (String a,String b,String c,){\n  return a + \"-\" + b + \"-\" + c;\n}\n\n\n\n\n\n",
   "public String middle (String s) {\n  return s.substring(s.length()/4, s.length() * 3 / 4);\n1}\n\n\n\n\n\n",
-  "public int sum (int[] ints) {\n  int tot = 0;\n  for (int i : ints) {\n    tot+=i;\n  }\n  return tot;\n}\n\n\n\n\n\n"
+  "public int sum (int[] ints) {\n  int tot = 0;\n  for (int i : ints) {\n    tot+=i;\n  }\n  return tot;\n}\n\n\n\n\n\n",
+  "\n\n\n\n\n\n"
 ]
