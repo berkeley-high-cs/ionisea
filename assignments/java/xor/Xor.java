@@ -39,7 +39,7 @@ public class Xor {
   // and decryption are the same process.)
 
   public static void main(String[] argv) throws Exception {
-    System.out.println(Integer.parseInt("23829489", 2));
+    System.out.println(Integer.parseInt(CIPHERTEXT, 255));
    // System.out.println(new Xor(567231495).decode(CIPHERTEXT));
   }
 }
