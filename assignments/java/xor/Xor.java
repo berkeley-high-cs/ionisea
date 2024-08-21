@@ -40,7 +40,7 @@ public class Xor {
 
   public static void main(String[] argv) throws Exception {
     
-    System.out.println(Integer.parseInt(CIPHERTEXT.substring(3,5), 255));
+    System.out.println(Integer.parseInt(CIPHERTEXT.substring(3,5), 16));
    // System.out.println(new Xor(567231495).decode(CIPHERTEXT));
   }
 }
