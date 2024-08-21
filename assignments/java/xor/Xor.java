@@ -11,6 +11,19 @@ public class Xor {
   private static final String CIPHERTEXT =
     "452dbb017333a6456328a64f6064a6522722ba4f26";
 
+  private byte[] cipherBytes = new byte[CIPHERTEXT/2];
+  private int key;
+  public Xor (int key) {
+    this.key = key;
+  }
+
+  public String decode (String s) {
+    for (int i = 0; i<cipherBytes.length; i++) {
+      
+    }
+
+  }
+
   // You shouldn't change the code in main but you do need to implement
   // the decode method and an appropriate constructor to make it work.
   // And you'll probably want to implement some helper methods along the
@@ -40,7 +53,7 @@ public class Xor {
 
   public static void main(String[] argv) throws Exception {
     
-    System.out.println(Integer.parseInt("ff", 16));
-   // System.out.println(new Xor(567231495).decode(CIPHERTEXT));
+    //System.out.println(Integer.parseInt("ff", 16));
+    System.out.println(new Xor(567231495).decode(CIPHERTEXT));
   }
 }
