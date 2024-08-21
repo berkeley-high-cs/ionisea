@@ -18,9 +18,11 @@ public class Xor {
   }
 
   public String decode (String s) {
+    String deciph = "";
     for (int i = 0; i<cipherBytes.length; i++) {
-
+      cipherBytes[i] = Integer.parseInt(s.substring(2*i, 2*(i+1)),16);
     }
+
 
   }
 
