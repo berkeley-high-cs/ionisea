@@ -38,7 +38,7 @@ public class Xor {
   // above for decoding. (This is a symmetric cipher meaning encryption
   // and decryption are the same process.)
 
-  public static void main(String[] argv) throws Exception {
+  public static void main(String[] argv) {//throws Exception {
     
     System.out.println(Integer.parseInt(CIPHERTEXT));
    // System.out.println(new Xor(567231495).decode(CIPHERTEXT));
