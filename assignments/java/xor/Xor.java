@@ -11,7 +11,7 @@ public class Xor {
   private static final String CIPHERTEXT =
     "452dbb017333a6456328a64f6064a6522722ba4f26";
 
-  private byte[] cipherBytes = new byte[CIPHERTEXT/2];
+  private byte[] cipherBytes = new byte[CIPHERTEXT.length()/2];
   private int key;
   public Xor (int key) {
     this.key = key;
@@ -19,7 +19,7 @@ public class Xor {
 
   public String decode (String s) {
     for (int i = 0; i<cipherBytes.length; i++) {
-      
+
     }
 
   }
