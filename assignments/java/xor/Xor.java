@@ -39,7 +39,8 @@ public class Xor {
   // and decryption are the same process.)
 
   public static void main(String[] argv) throws Exception {
-    System.out.println(Integer.parseInt(CIPHERTEXT, 16));
+    System.out.println("jfrvhiru");
+    //System.out.println(Integer.parseInt(CIPHERTEXT, 16));
    // System.out.println(new Xor(567231495).decode(CIPHERTEXT));
   }
 }
