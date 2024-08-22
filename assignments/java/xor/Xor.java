@@ -19,6 +19,7 @@ public class Xor {
 
   public String decode (String s) {
     String deciph = "";
+    System.out.println(s.getBytes(StandardCharsets.UTF_8));
     for (int i = 0; i<cipherBytes.length; i++) {
       cipherBytes[i] = (byte) Integer.parseInt(s.substring(2*i, 2*(i+1)),16);
       System.out.print(cipherBytes[i] + " ");
