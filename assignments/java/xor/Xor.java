@@ -17,7 +17,6 @@ public class Xor {
 
   public Xor (int key) {
     this.key = key;
-    for (int )
   }
 
   public String decode (String s) {
