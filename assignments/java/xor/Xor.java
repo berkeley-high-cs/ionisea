@@ -21,8 +21,9 @@ public class Xor {
     String deciph = "";
     for (int i = 0; i<cipherBytes.length; i++) {
       cipherBytes[i] = (byte) Integer.parseInt(s.substring(2*i, 2*(i+1)),16);
+      System.out.print(cipherBytes[i]);
     }
-
+    return "f";
   }
 
   // You shouldn't change the code in main but you do need to implement
