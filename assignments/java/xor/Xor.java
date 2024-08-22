@@ -21,7 +21,7 @@ public class Xor {
 
   public String decode (String s) {
     byte[] cipherBytes = new byte[CIPHERTEXT.length()/2];
-    byte[] biteMe = s.getBytes(StandardCharsets.UTF_8);
+    byte[] biteMe = s.getBytes(StandardCharsets.UTF_16);
     String deciph = "";
     for (int i = 0; i<cipherBytes.length; i++) {
       cipherBytes[i] = (byte) Integer.parseInt(s.substring(2*i, 2*(i+1)),16);
