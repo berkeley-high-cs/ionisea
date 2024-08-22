@@ -13,18 +13,22 @@ public class Xor {
 
   private byte[] cipherBytes = new byte[CIPHERTEXT.length()/2];
   private int key;
+  private byte[] keyBytes;
+
   public Xor (int key) {
     this.key = key;
+    for (int )
   }
 
   public String decode (String s) {
+    byte[] cipherBytes = new byte[CIPHERTEXT.length()/2];
+    byte[] biteMe = s.getBytes(StandardCharsets.UTF_8);
     String deciph = "";
-    System.out.println(s.getBytes(StandardCharsets.UTF_8));
     for (int i = 0; i<cipherBytes.length; i++) {
       cipherBytes[i] = (byte) Integer.parseInt(s.substring(2*i, 2*(i+1)),16);
-      System.out.print(cipherBytes[i] + " ");
+      System.out.println(cipherBytes[i] + " " + biteMe[i]);
     }
-    System.out.println((byte) Integer.parseInt("ff", 16));
+
     return "f";
   }
 
