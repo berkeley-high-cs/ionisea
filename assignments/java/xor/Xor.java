@@ -35,7 +35,7 @@ public class Xor {
       System.out.println( cipherBytes[i] + " " );
     }
 
-    return "f";
+    return new String(shifted(cipherBytes), StandardCharsets.UTF_8);
   }
 
   // You shouldn't change the code in main but you do need to implement
