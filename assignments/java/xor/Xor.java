@@ -19,13 +19,20 @@ public class Xor {
     this.key = key;
   }
 
+  private String shifting (byte[] bytes) {
+    byte[] newBytes = new byte[bytes.length];
+    for (int i = 0; i <bytes.length; i++) {
+      newBytes[i] = bytes[i] ^ (key >>> (i%4) * 8);
+    }
+    return newBytes[i];
+  }
+
   public String decode (String s) {
     byte[] cipherBytes = new byte[CIPHERTEXT.length()/2];
-    byte[] biteMe = s.getBytes(StandardCharsets.UTF_8);
     String deciph = "";
     for (int i = 0; i<cipherBytes.length; i++) {
       cipherBytes[i] = (byte) Integer.parseInt(s.substring(2*i, 2*(i+1)),16);
-      System.out.println((int) cipherBytes[i] + " " + (int) biteMe[i]);
+      System.out.println( cipherBytes[i] + " " );
     }
 
     return "f";
