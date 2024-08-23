@@ -22,7 +22,7 @@ public class Xor {
   private byte[] shifted (byte[] bytes) {
     byte[] newBytes = new byte[bytes.length];
     for (int i = 0; i <bytes.length; i++) {
-      newBytes[i] = bytes[i] ^ (key >>> (i%4) * 8);
+      newBytes[i] = (byte)(bytes[i] ^ (key >>> (i%4) * 8));
     }
     return newBytes[i];
   }
