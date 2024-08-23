@@ -24,7 +24,7 @@ public class Xor {
     for (int i = 0; i <bytes.length; i++) {
       newBytes[i] = (byte)(bytes[i] ^ (key >>> (i%4) * 8));
     }
-    return newBytes[i];
+    return newBytes;
   }
 
   public String decode (String s) {
