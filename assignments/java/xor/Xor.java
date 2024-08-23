@@ -19,7 +19,7 @@ public class Xor {
     this.key = key;
   }
 
-  private String shifting (byte[] bytes) {
+  private byte[] shifted (byte[] bytes) {
     byte[] newBytes = new byte[bytes.length];
     for (int i = 0; i <bytes.length; i++) {
       newBytes[i] = bytes[i] ^ (key >>> (i%4) * 8);
