@@ -2,30 +2,52 @@
 
 set -euo pipefail
 
-root="https://intro.gigamonkeys.com/starter-kits"
+root="https://bhs-cs.gigamonkeys.com/starter-kits"
 
 function usage {
-    echo "To create a new project, run this script with two arguments, the name of the project "
-    echo "and the name of the starter kit you want to use. For example:"
+    echo "To create a new project, run this script with either one or two arguments:"
     echo ""
-    echo "  $0 my-first-web-project trivial-web"
+    echo "  $0 NAME"
+    echo ""
+    echo "Makes a project named NAME from the kit named NAME."
+    echo ""
+    echo "  $0 PROJECT KIT"
+    echo ""
+    echo "Makes a project named PROJECT from the kit named KIT."
     echo ""
     echo "To list the available kits:"
     echo ""
     echo "  $0 --list"
+    echo ""
     exit 1
 }
 
-if (($# < 1)); then usage; fi
+help=''
+list=''
+off_menu=''
 
-if (($# == 1)) && [ "$1" == "--list" ]; then
+args=()
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --help) help='yes'; shift ;;
+        --list) list='yes'; shift ;;
+        --off-menu) off_menu='yes'; shift ;;
+        --*) echo "Unknown option: $1"; exit 1 ;;
+        *) args+=("$1"); shift ;;
+    esac
+done
+
+if [ "$list" = "yes" ]; then
     curl -sS "$root/kits.txt"
     exit 0
 fi
 
-if (($# < 2)); then usage; fi
+if ((${#args[*]} < 1)) || [ "$help" = "yes" ]; then
+    usage
+fi
 
-if (($# > 2)); then
+if ((${#args[*]} > 2)); then
     echo "Too many arguments. Did you use a name with spaces in it?"
     exit 1
 fi
@@ -35,15 +57,22 @@ if [ "$(git branch --show-current)" != "main" ]; then
     exit 1
 fi
 
-name="$1"
-kit="$2"
+# The project name
+name="${args[0]}"
+
+# The kit name. If only one name is provided the project is named for the kit
+kit="${args[1]:-$name}"
+
+# Directory and branch where project will live
 proj="projects/$name"
 
 if ! curl -sS "$root/kits.txt" | egrep "^$kit " > /dev/null; then
-    echo "$kit is not a kit."
-    echo ""
-    curl -sS "$root/kits.txt"
-    exit 1
+    if [ "$off_menu" != "yes" ]; then
+        echo "$kit is not a kit."
+        echo ""
+        curl -sS "$root/kits.txt"
+        exit 1
+    fi
 fi
 
 if [ -e "$proj" ]; then
@@ -68,8 +97,11 @@ tmp=$(mktemp)
 curl --fail "$root/$kit.tgz" > "$tmp"
 tar xzf "$tmp"
 
-# Install the libraries
-npm install
+# Post download initialization depends on what's in the kit. So far only node
+# kits need anything.
+if [ -e 'package.json' ]; then
+    npm install
+fi
 
 # Commit the starter code
 git add .
