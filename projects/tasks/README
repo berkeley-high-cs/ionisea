@@ -1,0 +1,7 @@
+# Java
+
+Minimal starter kit for a Java project.
+
+If you want you can use the Makefile to build the project in the terminal with
+the `make` command. First you'll need to set the MAIN_CLASS variable in the
+Makefile to the name of your main class.
