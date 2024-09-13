@@ -1,6 +1,6 @@
 
 public class Task2 implements Runnable{
-    public void run (int gin) {
+    public void run () {
         System.out.println();
     }
 }

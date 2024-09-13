@@ -1,9 +1,10 @@
+import java.util.Date;
 
 public class Task implements Runnable{
 
     
 
-    public void run( int gah){
-        System.out.println(Date.now() * gah);
+    public void run(){
+        System.out.println(new Date());
     }
 }
