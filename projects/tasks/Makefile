@@ -6,7 +6,7 @@ build:
 	javac -Xlint:all -Xlint:-serial -Xlint:-this-escape *.java
 
 run:
-	java $(MAIN_CLASS)
+	java $(Main.java)
 
 clean:
 	rm -f *.class
