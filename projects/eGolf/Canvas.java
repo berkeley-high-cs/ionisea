@@ -1,8 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Canvas extends JPanel {
+
+  private ArrayList<Shape> activeShapes = new ArrayList<Shape>();
 
   public Canvas() {
     // 17 milliseconds is 60fps
@@ -10,6 +13,17 @@ public class Canvas extends JPanel {
     timer.start();
   }
 
+
+  private void dispatchMousePress(MouseEvent evt, Graphics2D g) {
+    // Figure out what cell the mouse click occurred
+    int mX = evt.getX();
+    int mY = evt.getY();
+    
+
+    g.fillRect(mX, mY, 400, 400);
+  }
+
+  
   @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
