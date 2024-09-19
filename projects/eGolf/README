@@ -1,0 +1,11 @@
+# Java animation
+
+Starter code for making animations.
+
+There are two classes here:
+
+  - GUI - a simple GUI that creates a fixed-size window and adds one component
+    to it.
+
+  - Canvas - the one component, a JPanel with a draw method that animates
+    something.
