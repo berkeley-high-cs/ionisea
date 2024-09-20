@@ -21,7 +21,7 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
       g.setColor(Color.DARK_GRAY);
       g.fillRect(0, 0, d.width, d.height);
       g.setColor(Color.RED);
-      g.drawOval(center.x-radius/2, center.y-radius/2, radius, radius);
+      g.drawOval(center.x-radius/2, center.y-radius/2-24, radius, radius);
   }
 
     @Override
