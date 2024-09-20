@@ -26,7 +26,10 @@ public class GUI {
     // frame.pack()
 
     // Add an instance of your actual game class here.
-    frame.add(new Canvas());
+    Canvas canvas = new Canvas();
+    frame.add(canvas);
+    frame.addMouseListener(canvas);
+    frame.addMouseWheelListener(canvas);
 
     // Make the frame actually appear.
     frame.setVisible(true);

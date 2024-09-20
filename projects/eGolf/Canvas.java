@@ -1,38 +1,59 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.ArrayList;
 
-public class Canvas extends JPanel {
+public class Canvas extends JPanel implements MouseListener, MouseWheelListener {
 
-  private ArrayList<Shape> activeShapes = new ArrayList<Shape>();
-
+  //private ArrayList<Shape> activeShapes = new ArrayList<>();
+  private int radius = 5;
+  private Point center = new Point(getSize().width/2, getSize().height/2);
   public Canvas() {
-    // 17 milliseconds is 60fps
-    Timer timer = new Timer(17, (ActionEvent e) -> { repaint(); });
-    timer.start();
+    // 17 milliseconds is roughly 60fps
+    //Timer timer = new Timer(17, (ActionEvent e) -> { repaint(); });
+    //timer.start();
   }
 
-
-  private void dispatchMousePress(MouseEvent evt, Graphics2D g) {
-    // Figure out what cell the mouse click occurred
-    int mX = evt.getX();
-    int mY = evt.getY();
-    
-
-    g.fillRect(mX, mY, 400, 400);
-  }
-
-  
   @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
       var d = getSize();
-      g.setColor(Color.GRAY);
+      
+      g.setColor(Color.DARK_GRAY);
       g.fillRect(0, 0, d.width, d.height);
-      g.setColor(Color.BLUE);
-      var r = (int)(Math.min(d.width, d.height) * 0.125);
-      var t = System.nanoTime();
-      g.fillOval((d.width - r) / 2, (int)(t / 5e6 % d.height), r, r);
+      g.setColor(Color.RED);
+      g.drawOval(center.x-radius/2, center.y-radius/2, radius, radius);
   }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      center.x = e.getX();
+      center.y = e.getY();
+      repaint();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+      System.out.println("pressed");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+      System.out.println("releaased");
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+      System.out.println("clicked on");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        System.out.println("clicked off");
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+       radius = Math.max(5,((int)(10 * e.getPreciseWheelRotation())) + radius);
+       repaint();
+    }
 }
