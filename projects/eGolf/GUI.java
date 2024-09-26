@@ -17,10 +17,10 @@ public class GUI {
     // Set it to a specific size. There are other ways to control the size of
     // the window, such as making it fill the screen or making it just big
     // enough to hold the components added to it.
-    frame.setSize(400, 400);
+    frame.setSize(1366, 700);
 
     // Use this if you want your window to fill up the screen.
-    // frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     // Use this to make the frame size to fit the components we put in it.
     // frame.pack()
