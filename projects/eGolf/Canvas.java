@@ -26,18 +26,20 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
     });
     timer.start();
   }
-  
+
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     var d = getSize();
+
     Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
+    // BROKEN -- REQUIRES PANEL TO BE AT TOP LEFT OF SCREEN! looking for fix
 
     // background
     g.setColor(Color.DARK_GRAY);
     g.fillRect(0, 0, d.width, d.height);
     // center
-    g.setColor(Color.white);
+    g.setColor(Color.gray);
     g.drawOval((int) center.x - 3, (int) center.y - 3, 6, 6);
     // outer edge
     g.setColor(Color.RED);
@@ -53,31 +55,31 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
     // motion in 1s
     g.setColor(Color.blue);
     g.drawLine((int) center.x, (int) center.y, (int) (center.x + vect.x), (int) (center.y + vect.y));
+
     // new wheel
-
     if (draggingWheel) {
-      int r = twoDist(mouseLoc, wheelStart);
-      Point tl = topLeft(wheelStart, radius);
+      int r = distToMouse(mouseLoc, wheelStart);
+      // Point tl = topLeft(wheelStart, radius);
       g.setColor(Color.yellow);
-      g.drawOval(tl.x, tl.y, r, r);
+      g.drawOval(wheelStart.x - r, wheelStart.y - r, r * 2, r * 2);
+      g.setColor(Color.gray);
+      g.drawOval(wheelStart.x - 3, wheelStart.y - 3, 6, 6);
     }
-    // drawing wheels
 
-    for (Map.Entry<Point, Integer> entry : wheels.entrySet()) {
+    // drawing wheels
+    for (Map.Entry<Point, Integer> entry : wheels.entrySet()) { // found entry set on java docs
       Point center = entry.getKey();
       int rad = entry.getValue();
       g.setColor(Color.orange);
-      g.drawOval(center.x - rad, center.y - rad, rad*2, rad*2);
+      g.drawOval(center.x - rad, center.y - rad, rad * 2, rad * 2);
+      g.setColor(Color.gray);
+      g.drawOval(center.x - 3, center.y - 3, 6, 6);
     }
 
   }
 
-  private int twoDist (Point a, Point b) {
-    return (int) Math.hypot(a.x-b.x, a.y-b.y);
-  }
-
-  private Point topLeft (Point center, int rad) {
-    return new Point(center.x - rad, center.y-rad-30);
+  private int distToMouse(Point p, Point mouse) {
+    return (int) Math.hypot(p.x - mouse.x, p.y - mouse.y - 30);
   }
 
   private void wallColls(Point dim) {
@@ -99,50 +101,110 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
     }
   }
 
+  private double distToCenter(Point a, Point2D.Double b) {
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  private Point2D.Double leaveWheel(int wheelRad, Point wheelCenter) {// shift the circle outside of the wheel
+    // distance on each axis to the center
+    Point2D.Double wheelDeltas = new Point2D.Double(center.x - wheelCenter.x, center.y - wheelCenter.y);
+
+    // (distance to move the circle outside of the wheel) / distance between the
+    // circles' centers = triangle ratio
+    double toShiftRatio = (radius + wheelRad - distToCenter(wheelCenter, center) + 1)
+        / distToCenter(wheelCenter, wheelDeltas);
+
+    // use triangle delta on proportional sides
+    Point2D.Double toShiftDeltas = new Point2D.Double(wheelDeltas.x * toShiftRatio, wheelDeltas.y * toShiftRatio);
+    center.x += toShiftDeltas.x;
+    center.y += toShiftDeltas.y;
+
+    return wheelDeltas;
+  }
+
+  private void wheelColls() {
+    for (Map.Entry<Point, Integer> entry : wheels.entrySet()) {
+      int wheelRad = entry.getValue();
+      Point wheelCenter = entry.getKey();
+      if (radius + wheelRad >= distToCenter(wheelCenter, center)) {
+
+        Point2D.Double wheelDeltas = leaveWheel(wheelRad, wheelCenter);
+        // ratio of distance from center to collision point to distance between both centers
+        double radRat = 1.0*radius/ (radius + wheelRad);
+        // set distances to collision point
+        wheelDeltas.x *= radRat;
+        wheelDeltas.y *= radRat;
+        // 
+
+        // temp
+        vect.x *= -1;
+        vect.y *= -1;
+      }
+    }
+  }
+
   private void perFrame() {
-    repaint();
     center.setLocation(center.x + vect.x * (1.0 / frameRate), center.y + vect.y * (1.0 / frameRate));
     vect = new Point2D.Double((vect.x * friction), (vect.y * friction));
+
+    // wheel collision check
+    wheelColls();
     // wall collision check
     wallColls(new Point(getSize().width, getSize().height));
+    repaint();
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    if (Math.hypot(e.getX() - center.x, e.getY() - center.y - 30) <= radius) {
-      draggingVect = true;
-      System.out.println("dragging");
-    } else {
-      wheelStart = new Point(e.getX(), e.getY() - 30);
-      draggingWheel = true;
+    if (e.getButton() == 1) {
+      if (Math.hypot(e.getX() - center.x, e.getY() - center.y - 30) <= radius) {
+        draggingVect = true;
+        System.out.println("dragging");
+      } else {
+        wheelStart = new Point(e.getX(), e.getY() - 30);
+        draggingWheel = true;
+      }
+    } else if (e.getButton() == 3) {
+      System.out.println("right click");
+      Point clicked = new Point(e.getX(), e.getY());
+      Point toRemove = new Point(-1, -1); // never defined in map
+      // System.out.println(clicked.toString());
+      for (Map.Entry<Point, Integer> entry : wheels.entrySet()) {
+        if (distToMouse(clicked, entry.getKey()) <= entry.getValue()) {
+          toRemove = entry.getKey(); // the order of the map is random!!! wtfrick!!
+        }
+      }
+      wheels.remove(toRemove);
     }
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    if (draggingVect) {
-      draggingVect = false;
-      vect.setLocation(2 * (center.x - e.getX()), 2 * (center.y - e.getY()));
-    } else if (draggingWheel) {
-      draggingWheel = false;
-      wheels.put(wheelStart, (int) Math.hypot(e.getX() - wheelStart.x, e.getY() - wheelStart.y));
+    if (e.getButton() == 1) {
+      if (draggingVect) {
+        draggingVect = false;
+        vect.setLocation(2 * (center.x - e.getX()), 2 * (center.y - e.getY()));
+      } else if (draggingWheel) {
+        draggingWheel = false;
+        int rad = (int) Math.hypot(e.getX() - wheelStart.x, e.getY() - 30 - wheelStart.y);
+        if (rad > 5) {
+          wheels.put(wheelStart, rad);
+        }
+      }
     }
     System.out.println("released");
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-    System.out.println("clicked on");
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-    System.out.println("clicked off");
   }
 
   @Override
