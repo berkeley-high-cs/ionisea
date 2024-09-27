@@ -128,17 +128,28 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
       Point wheelCenter = entry.getKey();
       if (radius + wheelRad >= distToCenter(wheelCenter, center)) {
 
-        Point2D.Double wheelDeltas = leaveWheel(wheelRad, wheelCenter);
+        Point2D.Double wheelDeltas = new Point2D.Double(center.x - wheelCenter.x, center.y - wheelCenter.y);
+        
         // ratio of distance from center to collision point to distance between both centers
-        double radRat = 1.0*radius/ (radius + wheelRad);
-        // set distances to collision point
-        wheelDeltas.x *= radRat;
-        wheelDeltas.y *= radRat;
-        // 
-
-        // temp
-        vect.x *= -1;
-        vect.y *= -1;
+        //double radRat = 1.0*radius/ (radius + wheelRad);
+        // distances to collision point
+        //wheelDeltas.x *= radRat;
+        //wheelDeltas.y *= radRat;
+        
+        // slope ratios
+        double slopeWheel = wheelDeltas.y/wheelDeltas.x;
+        double slopeVect = vect.y/vect.x;
+        // new vector slope (i did a lot of math on paper for this it could still be wrong though)
+        // where m is wheel slope, and n is vect slope: new slope = 
+        // (2n(m^2) + 2m - n) / (2mn - m^2 + 3)
+        double bumpedSlope = ((2*(slopeWheel*slopeWheel) * slopeVect )+ (2* slopeWheel) - (slopeVect))/
+        (2* slopeWheel * (slopeVect) - (slopeWheel* slopeWheel) + 3);
+        System.out.println(slopeVect + " " + bumpedSlope);
+        double vectAmp = Math.hypot(vect.x, vect.y);
+        vect = new Point2D.Double (vect.x*slopeVect/bumpedSlope, vect.y/slopeVect*bumpedSlope);
+        //vect.x *= bumpedSlope/slopeVect;
+        //vect.y *= bumpedSlope/slopeVect;
+        leaveWheel(wheelRad, wheelCenter);
       }
     }
   }
