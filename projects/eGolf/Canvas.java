@@ -111,7 +111,7 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
 
     // (distance to move the circle outside of the wheel) / distance between the
     // circles' centers = triangle ratio
-    double toShiftRatio = (radius + wheelRad - distToCenter(wheelCenter, center) + 1)
+    double toShiftRatio = (radius + wheelRad - distToCenter(wheelCenter, center))
         / distToCenter(wheelCenter, wheelDeltas);
 
     // use triangle delta on proportional sides
@@ -130,25 +130,20 @@ public class Canvas extends JPanel implements MouseListener, MouseWheelListener 
 
         Point2D.Double wheelDeltas = new Point2D.Double(center.x - wheelCenter.x, center.y - wheelCenter.y);
         
-        // ratio of distance from center to collision point to distance between both centers
-        //double radRat = 1.0*radius/ (radius + wheelRad);
-        // distances to collision point
-        //wheelDeltas.x *= radRat;
-        //wheelDeltas.y *= radRat;
-        
         // slope ratios
         double slopeWheel = wheelDeltas.y/wheelDeltas.x;
         double slopeVect = vect.y/vect.x;
         // new vector slope (i did a lot of math on paper for this it could still be wrong though)
-        // where m is wheel slope, and n is vect slope: new slope = 
+        // where m is wheel slope, and n is vect slope: reflected slope = 
         // (2n(m^2) + 2m - n) / (2mn - m^2 + 3)
-        double bumpedSlope = ((2*(slopeWheel*slopeWheel) * slopeVect )+ (2* slopeWheel) - (slopeVect))/
-        (2* slopeWheel * (slopeVect) - (slopeWheel* slopeWheel) + 3);
-        System.out.println(slopeVect + " " + bumpedSlope);
+        // i feel like this wouldve been easier with trig ..
+        double rise = ((2*(slopeWheel*slopeWheel) * slopeVect )+ (2* slopeWheel) - (slopeVect));
+        double run = (2* slopeWheel * (slopeVect) - (slopeWheel* slopeWheel) + 3);
+        //double bumpedSlope = rise/run;
+        double bumpedAmp = Math.hypot(rise,run);
+        System.out.println(slopeVect + " " + rise/run);
         double vectAmp = Math.hypot(vect.x, vect.y);
-        vect = new Point2D.Double (vect.x*slopeVect/bumpedSlope, vect.y/slopeVect*bumpedSlope);
-        //vect.x *= bumpedSlope/slopeVect;
-        //vect.y *= bumpedSlope/slopeVect;
+        vect = new Point2D.Double (run*vectAmp/bumpedAmp, rise*vectAmp/bumpedAmp);
         leaveWheel(wheelRad, wheelCenter);
       }
     }
